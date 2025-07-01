@@ -1,0 +1,47 @@
+body {
+    font-family: 'Nunito', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.post {
+    background-image: url('{{ asset('images/background.png') }}'); /* 投稿ごとに背景画像を設定 */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px; /* 各投稿間にスペースを作る */
+    position: relative;
+    color: #333; /* デフォルトのテキストカラー */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* ボックスシャドウを追加して立体感を出す */
+}
+
+.post::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.6); /* 半透明の白レイヤーで背景画像を薄くする */
+    border-radius: 8px;
+    z-index: 1;
+}
+
+.post h2, .post p {
+    position: relative;
+    z-index: 2; /* テキストが半透明レイヤーの上に表示されるようにする */
+}
+
+.posts {
+    padding: 20px;
+}
+
+.post h2 {
+    color: #333; /* タイトルの色を背景に合うように設定 */
+}
+
+.post p {
+    color: #333; /* テキストの色を背景に合うように設定 */
+}
