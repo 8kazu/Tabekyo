@@ -5,7 +5,11 @@
         <h1 class="text-2xl font-bold">商品一覧</h1>
         <a href="{{ route('items.create') }}"
            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-            ＋ 商品を登録する
+            ＋ 商品登録
+        </a>
+        <a href="{{ route('shops.create') }}"
+           class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+            ＋ 店舗登録
         </a>
     </div>
 

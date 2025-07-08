@@ -7,6 +7,39 @@ use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
+    public function create()
+    {
+        return view('shops.create');
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'map_url' => 'required|url',
+        ]);
+
+        // GoogleマップURLから座標を抽出
+        $parsedUrl = parse_url($validated['map_url']);
+        parse_str($parsedUrl['query'] ?? '', $query);
+
+        if (!isset($query['q']) || !preg_match('/^[-\d.]+,[-\d.]+$/', $query['q'])) {
+            return back()->withErrors(['map_url' => 'GoogleマップのURLが正しくありません（例: https://www.google.com/maps?q=35.6895,139.6917）']);
+        }
+
+        [$latitude, $longitude] = explode(',', $query['q']);
+
+        \App\Models\Shop::create([
+            'name' => $validated['name'],
+            'latitude' => (float)$latitude,
+            'longitude' => (float)$longitude,
+        ]);
+
+        return redirect()->route('items.create')->with('success', '店舗を登録しました。');
+    }
+
+
+
     public function showView($shopId)
     {
         $shop = \App\Models\Shop::with(['items', 'menuItems'])->findOrFail($shopId);

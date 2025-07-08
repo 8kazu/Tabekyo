@@ -18,7 +18,6 @@ use App\Http\Controllers\MenuItemController;
 Route::get('/', [ItemController::class, 'index'])->name('index'); // 新着一覧
 // Route::get('/register', fn() => view('register.create'));    // 登録フォーム
 Route::get('/menu/upload', fn() => view('menu.upload'));     // メニューアップロード
-Route::get('/shops/{shop}', [ShopController::class, 'showView']);
 
 
 /**
@@ -34,15 +33,13 @@ Route::put('/items/{item}', [ItemController::class, 'update']);                 
 Route::delete('/items/{item}', [ItemController::class, 'destroy']);             // 商品削除
 
 /**
- * 料理登録（Register）
- */
-
-
-/**
  * 店舗（Shop）
  */
+Route::get('/shops/create', [ShopController::class, 'create'])->name('shops.create');
+Route::post('/shops', [ShopController::class, 'store'])->name('shops.store');
 Route::get('/items/shop/{shop}', [ShopController::class, 'showItems']);         // 指定店舗の商品一覧
 Route::get('/shops/{shop}', [ShopController::class, 'show']);                   // 店舗詳細（OCRメニュー含む）
+Route::get('/shops/{shop}', [ShopController::class, 'showView']);
 
 /**
  * メニュー画像アップロード & OCR

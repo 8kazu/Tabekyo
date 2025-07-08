@@ -35,5 +35,6 @@
             登録する
         </button>
     </form>
+    <a href="{{ route('index') }}" class="inline-block mt-4 text-blue-600 hover:underline">← 一覧に戻る</a>
 </div>
 @endsection
