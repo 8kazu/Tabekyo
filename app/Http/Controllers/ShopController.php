@@ -19,15 +19,15 @@ class ShopController extends Controller
             'map_url' => 'required|url',
         ]);
 
-        // GoogleマップURLから座標を抽出
-        $parsedUrl = parse_url($validated['map_url']);
-        parse_str($parsedUrl['query'] ?? '', $query);
+        $url = $validated['map_url'];
 
-        if (!isset($query['q']) || !preg_match('/^[-\d.]+,[-\d.]+$/', $query['q'])) {
-            return back()->withErrors(['map_url' => 'GoogleマップのURLが正しくありません（例: https://www.google.com/maps?q=35.6895,139.6917）']);
+        // 緯度と経度を !3d35.7118617!4d139.7590836 形式から抽出
+        if (preg_match('/!3d([-0-9.]+)!4d([-0-9.]+)/', $url, $matches)) {
+            $latitude = $matches[1];
+            $longitude = $matches[2];
+        } else {
+            return back()->withErrors(['map_url' => 'GoogleマップのURLから緯度・経度を抽出できませんでした'])->withInput();
         }
-
-        [$latitude, $longitude] = explode(',', $query['q']);
 
         \App\Models\Shop::create([
             'name' => $validated['name'],
